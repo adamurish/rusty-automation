@@ -11,14 +11,14 @@ use rppal::gpio::Gpio;
 
 #[get("/on")]
 fn on() -> String {
-    let mut pin = Gpio::new()?.get(26)?.into_output();
+    let mut pin = Gpio::new().unwrap().get(26).unwrap().into_output();
     pin.set_high();
     format!("LED on")
 }
 
 #[get("/off")]
 fn off() -> String {
-    let mut pin = Gpio::new()?.get(26)?.into_output();
+    let mut pin = Gpio::new().unwrap().get(26).unwrap().into_output();
     pin.set_low();
     format!("LED off")
 }
