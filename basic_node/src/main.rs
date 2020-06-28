@@ -3,15 +3,8 @@
 #[macro_use] extern crate rocket;
 #[macro_use] extern crate serde_derive;
 
-use rocket_contrib::json::Json;
-
-use std::process::Command;
-
 use rppal::gpio::Gpio;
-use std::thread;
-use std::time::Duration;
 use rocket::State;
-
 use std::thread;
 use std::time::Duration;
 
@@ -30,8 +23,10 @@ fn off(gpio: State<Gpio>) -> String {
 }
 
 fn main() {
-    let rocket_lobster = rocket::ignite();
-    rocket_lobster.mount("/", routes![on, off]);
-    rocket_lobster.manage(Gpio::new().unwrap());
+    let gpio = Gpio::new().unwrap();
+    gpio.get(26).unwrap().into_output().set_reset_on_drop(false);
+    let rocket_lobster = rocket::ignite()
+        .mount("/", routes![on, off])
+        .manage(gpio);
     rocket_lobster.launch();
 }
