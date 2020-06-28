@@ -24,6 +24,8 @@ fn off() -> String {
 }
 
 fn main() {
-    let rocket_lobster = rocket::ignite();
-    rocket_lobster.mount("/", routes![on, off]).launch();
+//    let rocket_lobster = rocket::ignite();
+//    rocket_lobster.mount("/", routes![on, off]).launch();
+    let mut pin_test = Gpio::new().unwrap().get(26).unwrap().into_output();
+    pin_test.set_high();
 }
