@@ -9,6 +9,9 @@ use std::process::Command;
 
 use rppal::gpio::Gpio;
 
+use std::thread;
+use std::time::Duration;
+
 #[get("/on")]
 fn on() -> String {
     let mut pin = Gpio::new().unwrap().get(26).unwrap().into_output();
@@ -28,4 +31,7 @@ fn main() {
 //    rocket_lobster.mount("/", routes![on, off]).launch();
     let mut pin_test = Gpio::new().unwrap().get(26).unwrap().into_output();
     pin_test.set_high();
+    thread::sleep(Duration::from_millis(5000));
+    pin_test.set_low();
+    println!("Finished");
 }
